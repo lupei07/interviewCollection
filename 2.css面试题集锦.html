@@ -1,0 +1,84 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-12 10:38:31
+ * @LastEditTime: 2022-07-12 11:11:54
+ * @FilePath: \interviewCollection\2.css面试题集锦.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css面试题集锦</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .margin{
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            margin: 20px;
+        }
+        .padding{
+            width: 100px;
+            height: 100px;
+            background-color: yellowgreen;
+            padding: 20px;
+        }
+        .parent{
+            width: 50%;
+        }
+        .parent .p1{
+            width: 50%;
+            background-color: aquamarine;
+        }
+        .parent .p2{
+            width: 50vm;
+            background-color: bisque;
+        }
+        .parent .p3{
+            background-color: aquamarine;
+        }
+        .parent .span{
+            background-color: blueviolet;
+        }
+        .parent .small-font{
+            transform: scale(0.8);
+            -webkit-transform: scale(0.8);
+        }
+    </style>
+</head>
+<body>
+    <h2>1. padding 和 margin 有什么不同（深信服，字节）</h2>
+    <div class="margin">margin</div>
+    <div class="padding">padding</div>
+    <p>作用对象不同，内边距padding针对的是自身，外边距margin作用于外部对象</p>
+
+
+    <h2>2. vw和百分比的区别</h2>
+    <!-- 百分比有继承关系 -->
+    <!-- vm只和设备的宽度有关系 -->
+    <div class="parent">
+        <div class="p1">百分比</div>
+        <div class="p2">VM</div>
+    </div>
+
+
+    <h2>3. 行内元素和块元素</h2>
+    <div class="parent">
+        <div class="p3">块元素</div>
+        <span class="span">行内元素</span>
+    </div>
+
+    <h2>4. 如何让谷歌浏览器支持小字体</h2>
+    <div class="parent">
+        <div>最小12px字体</div>
+        <div class="small-font">小于12px字体</div>
+    </div>
+    
+</body>
+</html>

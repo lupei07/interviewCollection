@@ -1,0 +1,88 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-12 13:49:55
+ * @LastEditTime: 2022-07-12 16:39:42
+ * @FilePath: \interviewCollection\4.深拷贝与浅拷贝.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝与浅拷贝</title>
+</head>
+<body>
+    <h2>深拷贝与浅拷贝</h2>
+    <script>
+        // 1. 基本数据类型 => 严格意义上不能算拷贝，叫赋值
+        let a = 5;
+        let b = a;
+        b = 3;
+        console.log(a, b); // 5 3
+
+        // 2. 数组与对象的赋值都叫做浅拷贝（藕断丝连）
+        let arr = [1, 2, 3];
+        let newArr = arr;
+        newArr.push(4);
+        console.log(arr, newArr); // arr 发生变化
+
+        // 3. 解构赋值是深拷贝还是浅拷贝？
+        // 针对一位数组和对象可以看做是深拷贝，多为数组就是浅拷贝
+        let arr1 = [1, 2, 3];
+        let newArr1 = [...arr];
+        newArr1.push(4);
+        console.log(arr1, newArr1); // arr 不变
+
+        let arr2 = [[1,2,3],[4,5,6]];
+        let newArr2 = [...arr2];
+        newArr2[0].push(888);
+        console.log(arr2, newArr2); // arr 发生变化
+
+
+        // 深拷贝的用法
+        let list = [
+            {id: 1, stuName: "小米", class: "五年一班"},
+            {id: 2, stuName: "小好", class: "五年二班"},
+            {id: 3, stuName: "小得", class: "五年三班"},
+        ]
+
+        let newList = JSON.parse(JSON.stringify(list))
+        newList.push({id:4})
+        console.log(list, newList); // list 不变
+
+
+        // 标准的深拷贝 => 针对  引用数据类型（数组，对象）
+        function deepClone(source){
+            const targetObj = source.constructor === Array ? [] : {};
+            for(let keys in source){
+                if(source.hasOwnProperty(keys)){
+                    // keys => 3种，基本数据类型，引用数据类型
+                    // 引用数据类型
+                    if(source[keys] && typeof source[keys] === "object"){
+                        // 递归
+                        targetObj[keys] = deepClone(source[keys])
+                    }else{ 
+                        // 基本数据类型，直接赋值
+                        targetObj[keys] = source[keys]                       
+                    }
+                }
+                
+            }
+            return targetObj;
+        }
+
+        let objC = {
+            name: "热巴",
+            arr: [[1,2,3], 5,6,7],
+            list: list,
+            obj: {name:"冷巴", actor:{title:"长歌行"}}
+        }
+        const newObjC = deepClone(objC);
+        newObjC.obj.age = 18
+        console.log('objC',objC);
+        console.log('newObjC',newObjC);
+    </script>
+</body>
+</html>

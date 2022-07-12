@@ -1,0 +1,46 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-12 13:32:20
+ * @LastEditTime: 2022-07-12 13:47:22
+ * @FilePath: \interviewCollection\3.let和var.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let和var</title>
+</head>
+<body>
+    <h2>let和var</h2>
+    <script>
+        // console.log(name); // Uncaught ReferenceError: Cannot access 'name' before initialization
+        // let name = "李长歌"
+
+        // 1. 声明提升 => 先上车后买票
+        console.log(name1); // undefined
+        var name1 = "驭灵师"
+
+        // 2. 没有局部作用域 => 红杏出墙
+        function fn1(){
+            for(var i=0; i<5; i++){
+            }
+            console.log(i) // 5
+        }
+        fn1()
+        function fn2(){
+            for(let i=0; i<5; i++){
+            }
+            // console.log(i) // i is not defined at fn1
+        }
+        fn2()
+
+        // 3. 声明覆盖 => 套牌车
+        var name2 = "纪云禾"
+        var name2 = "长意"
+        console.log(name2); // 长意
+    </script>
+</body>
+</html>
