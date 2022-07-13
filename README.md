@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-13 16:57:37
+ * @LastEditTime: 2022-07-13 17:33:41
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -312,3 +312,16 @@ body{
 ## vue中的data为什么是个函数
 1. 闭包设计：每一个组件都有自己的私有作用域，确保各组件数据不会相互干扰
 2. 如果是纯对象设计：会有干扰
+
+## 虚拟dom详解
+### 1. 虚拟dom是什么？
+- vue2.x 才有的虚拟dom
+- 本质：就是js对象 => 跨平台
+### 2. 虚拟dom在vue中做了什么？
+- vue的渲染过程（HTML，css，js）
+    - 将真实dom转化虚拟dom（js对象）
+    - 更新的时候做对比
+### 3. 虚拟dom是如何提升vue的渲染效率的？
+- 局部更新（节点数据）
+- 将直接操作dom的地方拿到两个js对象中去做比较
+## diff中patch
