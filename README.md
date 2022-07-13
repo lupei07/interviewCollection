@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-13 17:33:41
+ * @LastEditTime: 2022-07-13 17:50:15
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -189,7 +189,7 @@ body{
     }
 ```
 
-## 防抖与截流
+## 防抖与节流
 ```js
     // 防抖 =>  固定时间内，事件只允许发生一次
     // 场景：搜索，鼠标滚动
