@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-12 17:23:03
+ * @LastEditTime: 2022-07-13 16:57:37
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -145,3 +145,170 @@ body{
     console.log('objC',objC);
     console.log('newObjC',newObjC);
 ```
+
+## Promise
+[Promise链接](https://github.com/lupei07/Promise)
+
+## 原型与原型链
+```js
+    // 原型  prototype ==> 原型函数特有的
+    // 原型链 _proto_ => [[prototype]]
+
+    let obj = {}
+    let arr = []
+    // 常规的对象，数组是没有原型的
+    // obj.prototype.a = 666 // 报错
+
+    function Person(){
+
+    }
+    Person.prototype.name="唱歌"
+    Person.prototype.age =18
+    Person.prototype.getAge = function(){
+        console.log(this.age);
+    }
+
+    // 实例
+    let person1 = new Person(); // 通过new关键字继承Person的原型属性和方法
+    person1.age = 28
+    console.log(person1.name);
+    person1.getAge()
+
+    // 从当前的实例属性去查找，如果找到了返回，否则顺着原型链一层一层网上找
+    // 直到找到null为止，如果null都没有找到，报错
+    console.log(person1.demo) // undefined
+    // person1.fn() // 不错
+
+
+    // 找自身的私有属性
+    let item;
+    for(item in person1){
+        if(person1.hasOwnProperty(item)){
+            console.log(item);
+        }
+    }
+```
+
+## 防抖与截流
+```js
+    // 防抖 =>  固定时间内，事件只允许发生一次
+    // 场景：搜索，鼠标滚动
+
+    function debounce(fn, wait){
+        let timer = null;
+        return args =>{
+            if(timer) clearTimeout(timer)
+            timer = setTimeout(fn, wait)
+        }
+    }
+
+
+    // 节流 => 一定时间内只调用一次函数
+    // 场景：提交表单 高频监听
+    function throttle(fn, time){
+        let timer = null;
+        return function(){
+            if(!timer){
+                timer=setTimeout(()=>{
+                    fn();
+                    timer = null;
+                },time)
+            }
+        }
+    }
+
+    // 通过时间戳
+```
+
+## 闭包
+```js
+    // 1. 闭包是什么？ -- 方法里返回一个方法
+    function fn(){
+        let a1 = 1;
+        return function(){
+            return a1
+        }
+    }
+
+    // 2. 闭包存在的意义？
+    // 2.1 延长变量的生命周期
+    // 2.2 创建私有环境
+    function fn1(){
+        let num = 0
+        function change(val){
+            num += val
+        }
+        return {
+            add: function(){
+                change(1)
+            },
+            value: function(){
+                return num
+            }
+        }
+    }
+```
+
+## ES6相关
+### 1. var let const
+```js
+    // var 
+    // 1. 声明提升  2. 变量覆盖  3. 没有块级作用域
+    console.log(num); // undefined
+    var num = 123
+
+    // const
+    // 1. const声明之后必须赋值 否则就报错
+    // 2. 定义的值不能修改，否则报错
+    // 3. 支持let的其他属性
+```
+### 2. 解构
+```js
+    let a = 1;
+    let b = 2;
+    [a, b] = [b, a] // a b 值互换
+```
+### 3. 快速去重
+```js
+    let arr = [12, 23, 53, 23, 12, 43]
+    let item = [...new Set(arr)]
+```
+### 4. Promise
+```js
+    // 标杆 => 构造函数同步执行
+    const promise = new Promise((resolve, reject)=>{
+        console.log('1');
+        resolve();
+        console.log('2');
+    })
+    // .then()异步执行
+    promise.then(()=>{
+        console.log('3');
+    })
+    console.log('4');
+    // 1 2 4 3
+```
+
+## v-model 双向数据绑定
+```js
+    <input type="text" id="username">
+    显示值：<p id="uName"></p>
+    <script>
+        let obj = {};
+        Object.defineProperty(obj, "name", {
+            get: function(){
+                console.log('取值');
+            },
+            set: function(val){
+                console.log('设置值');
+                document.getElementById("uName").innerText = val
+            }
+        })
+        document.getElementById("username").addEventListener("keyup", function(){
+            obj.name = event.target.value;
+        })
+    </script>
+```
+## vue中的data为什么是个函数
+1. 闭包设计：每一个组件都有自己的私有作用域，确保各组件数据不会相互干扰
+2. 如果是纯对象设计：会有干扰

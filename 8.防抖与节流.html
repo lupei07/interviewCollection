@@ -1,0 +1,48 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-13 14:43:32
+ * @LastEditTime: 2022-07-13 15:22:33
+ * @FilePath: \interviewCollection\8.防抖与节流.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖与节流</title>
+</head>
+<body>
+    <h2>防抖与节流</h2>
+    <script>
+        // 防抖 =>  固定时间内，事件只允许发生一次
+        // 场景：搜索，鼠标滚动
+
+        function debounce(fn, wait){
+            let timer = null;
+            return args =>{
+                if(timer) clearTimeout(timer)
+                timer = setTimeout(fn, wait)
+            }
+        }
+
+
+        // 节流 => 一定时间内只调用一次函数
+        // 场景：提交表单 高频监听
+        function throttle(fn, time){
+            let timer = null;
+            return function(){
+                if(!timer){
+                    timer=setTimeout(()=>{
+                        fn();
+                        timer = null;
+                    },time)
+                }
+            }
+        }
+
+        // 通过时间戳
+    </script>
+</body>
+</html>

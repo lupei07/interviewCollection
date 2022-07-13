@@ -1,0 +1,35 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-13 16:50:20
+ * @LastEditTime: 2022-07-13 16:52:42
+ * @FilePath: \interviewCollection\11.v-model双向数据绑定.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model双向数据绑定</title>
+</head>
+<body>
+    <input type="text" id="username">
+    显示值：<p id="uName"></p>
+    <script>
+        let obj = {};
+        Object.defineProperty(obj, "name", {
+            get: function(){
+                console.log('取值');
+            },
+            set: function(val){
+                console.log('设置值');
+                document.getElementById("uName").innerText = val
+            }
+        })
+        document.getElementById("username").addEventListener("keyup", function(){
+            obj.name = event.target.value;
+        })
+    </script>
+</body>
+</html>
