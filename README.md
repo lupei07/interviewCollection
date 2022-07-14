@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-13 17:50:15
+ * @LastEditTime: 2022-07-14 14:12:51
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -114,6 +114,7 @@ body{
     console.log(list, newList); // list 不变
 ```
 ### 标准的深拷贝 => 针对  引用数据类型（数组，对象）
+#### - `hasOwnProperty`检测一个属性是否是对象的自有属性
 ```JS
     function deepClone(source){
         const targetObj = source.constructor === Array ? [] : {};
@@ -325,3 +326,68 @@ body{
 - 局部更新（节点数据）
 - 将直接操作dom的地方拿到两个js对象中去做比较
 ## diff中patch
+
+
+## `render()`函数
+- template => render() => 虚拟dom => 转化成真实dom
+```js
+<script>
+    export default {
+        props: {
+            type: {
+                type: String,
+                default: 'normal'
+            },
+            text: {
+                type: String,
+                default: 'normal'
+            }
+        },
+        render(h){
+            // h => 原生JS中createElement()
+            return h('button',{
+                // v-bind: class
+                class: {
+                    btn: true,
+                    'btn-success': this.type === 'success',
+                    'normal': !this.type
+                },
+                // dom属性
+                domProps: {
+                    innerText: this.text || '默认按钮'
+                },
+                // v-on:click
+                on: {
+
+                }
+            })
+        }
+    }
+</script>
+<style>
+.btn{}
+.btn-success{}
+.normal{}
+</style>
+``` 
+## 指令的权限控制
+```js
+export const permission = {
+  mounted(el, binding) {
+    const { value } = binding;
+    const roles = ["bills-capital"];
+    if (value && value instanceof Array && value.length > 0) {
+      const permissionRoles = value;
+      const hasPermission = roles.some((role) => {
+        return permissionRoles.includes(role);
+      });
+      if (!hasPermission) {
+        el.parentNode && el.parentNode.removeChild(el);
+      }
+    } else {
+      throw new Error(`need array like v-permission='[""]'`);
+    }
+  },
+};
+
+```
