@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-14 14:55:36
+ * @LastEditTime: 2022-07-14 17:13:28
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -438,3 +438,4 @@ export const permission = {
 ```
 
 ## 面向对象编程
+## JS发布订阅模式
