@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-14 14:12:51
+ * @LastEditTime: 2022-07-14 14:55:36
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -327,8 +327,38 @@ body{
 - 将直接操作dom的地方拿到两个js对象中去做比较
 ## diff中patch
 
+## 打包
+```js
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+let isProduction = process.env.NODE_ENV;
+module.exports = {
+  configureWebpack: (config) => {
+    // 生产环境相关配置
+    if (isProduction == "production") {
+      // 代码压缩
+      config.plugins.push(
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            // 生产环境自动删除console
+            warnings: false,
+            compress: {
+              drop_debugger: true,
+              drop_console: true,
+              pure_funcs: ["console.log"],
+            },
+          },
+          sourceMap: false, // 不打印日志
+          parallel: true, // 开启并行化，加快打包速度
+        })
+      );
+    }
+  },
+};
+```
 
-## `render()`函数
+## 拯救繁乱的template
+- 页面中有很多的v-if的判断 可以考虑优化
+### 使用 `render()`函数
 - template => render() => 虚拟dom => 转化成真实dom
 ```js
 <script>
@@ -370,6 +400,21 @@ body{
 .normal{}
 </style>
 ``` 
+## 路由拦截
+```js
+router.beforeEach((to, from, next) => {
+  const loginInfo = useStore();
+
+  let requiredAuth = to.meta.requiredAuth || undefined;
+  if (requiredAuth && !loginInfo.isLogin) {
+    alert("need required");
+    next({ path: "/" });
+    return;
+  }
+  next();
+});
+```
+
 ## 指令的权限控制
 ```js
 export const permission = {
@@ -391,3 +436,5 @@ export const permission = {
 };
 
 ```
+
+## 面向对象编程
