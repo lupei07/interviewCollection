@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-13 16:55:51
- * @LastEditTime: 2022-07-13 16:57:04
+ * @LastEditTime: 2022-07-15 09:45:16
  * @FilePath: \interviewCollection\12.vue中的data为什么是个函数.html
  * @Description: 
 -->
@@ -17,6 +17,16 @@
     <script>
         // 闭包设计：每一个组件都有自己的私有作用域，确保各组件数据不会相互干扰
         // 如果是纯对象设计：会有干扰
+        const houseObj = {}
+        houseObj.trigger=function(){
+            console.log(arguments);
+            console.log('xxx',Array.from(arguments));
+            let arr = Array.prototype.slice.call(arguments) // 真实数组
+            let key = Array.prototype.shift.call(arguments) // 数组的第一项
+            // console.log(arguments);
+            console.log(key);
+        }
+        houseObj.trigger('small', 100)
     </script>
 </body>
 </html>

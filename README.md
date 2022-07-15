@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-14 17:13:28
+ * @LastEditTime: 2022-07-15 10:21:18
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -359,7 +359,9 @@ module.exports = {
 ## 拯救繁乱的template
 - 页面中有很多的v-if的判断 可以考虑优化
 ### 使用 `render()`函数
-- template => render() => 虚拟dom => 转化成真实dom
+- template => render() => 虚拟dom => 转化成真实dom  
+[csdn文档](https://blog.csdn.net/w807139809/article/details/122106086?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-122106086-blog-110071512.pc_relevant_multi_platform_whitelistv1_exp2&spm=1001.2101.3001.4242.2&utm_relevant_index=3)
+![render](render.jpg)
 ```js
 <script>
     export default {
@@ -375,22 +377,41 @@ module.exports = {
         },
         render(h){
             // h => 原生JS中createElement()
-            return h('button',{
+            // 第一个参数【必须】：要渲染的标签名称
+            // 第二个参数【可选】：渲染标签的属性
+            // 第三个参数【可选】：渲染标签的子元素数组
+            return h('button',
+            {
                 // v-bind: class
                 class: {
                     btn: true,
                     'btn-success': this.type === 'success',
                     'normal': !this.type
                 },
+                // 与 v-bind:style 的API相同
+                // 接收一个字符串，对象，或对象组成的数组
+                style:{
+                    color: "red",
+                    fontSize: "14px"
+                },
+                // 普通的 HTML attribute
+                attrs: {
+                    id: "foo"
+                },
                 // dom属性
                 domProps: {
                     innerText: this.text || '默认按钮'
                 },
                 // v-on:click
+                // 但不在支持如 v-on:keyup.enter这样的修饰器
                 on: {
-
+                    click: this.clickHandler
                 }
-            })
+            },
+            [
+                
+            ]
+            )
         }
     }
 </script>
