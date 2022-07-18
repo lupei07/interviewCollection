@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-15 10:21:18
+ * @LastEditTime: 2022-07-18 11:28:44
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -460,3 +460,131 @@ export const permission = {
 
 ## 面向对象编程
 ## JS发布订阅模式
+1. 发布订阅模式是什么
+2. 实现中有哪些应用场景
+3. 如何利用发布订阅模式解耦代码
+4. 高内聚，低耦合的设计思想
+- 耦合度越高，可复用性越低，耦合度越低，可复用性更高
+```js
+    const houseObj = {}; // 发布者
+
+      // houseObj.list = []; // 花名册，缓存
+      houseObj.list = {}; // [] => {} 为何把数组定义成对象  阿里面试题
+      // 因为如果是数组，在this.list[key] 取值的时候会是一个深拷贝，深拷贝比浅拷贝更加耗性能；对象的可读性较好一些
+
+      // 添加订阅者
+      houseObj.listen = function (key, fn) {
+        // if(!this.list[key]){
+        //     this.list[key] = [];
+        // }
+        // this.list[key].push(fn);
+        // 短路表达式
+        (this.list[key] || (this.list[key] = [])).push(fn);
+      };
+
+      // 发布
+      houseObj.trigger = function () {
+        // 类数组转真实数组
+        let key = Array.prototype.shift.call(arguments); // 数组的第一项
+        let fns = this.list[key]; // 取出该消息对应的回调函数
+        if (!fns || fns.length == 0) {
+          return;
+        }
+        console.log("arguments", arguments);
+        for (let i = 0, fn; (fn = fns[i++]); ) {
+          fn.apply(this, arguments);
+        }
+        // console.log('xxx',Array.from(arguments));
+        // // let arr = Array.prototype.slice.call(arguments) // 真实数组
+      };
+
+      houseObj.listen("small", function (size) {
+        console.log(`小红：我要的房子是${size}平米`);
+      });
+      houseObj.listen("big", function (size) {
+        console.log(`小明：我要的房子是${size}平米`);
+      });
+      houseObj.trigger("small", 100);
+      houseObj.trigger("big", 150);
+```
+#### 深度解耦
+```js
+    const event = {
+        list: {},
+        listen: function (key, fn) {
+          (this.list[key] || (this.list[key] = [])).push(fn);
+        },
+        trigger: function () {
+          // 类数组转真实数组
+          let key = Array.prototype.shift.call(arguments); // 数组的第一项
+          let fns = this.list[key]; // 取出该消息对应的回调函数
+          if (!fns || fns.length == 0) {
+            return;
+          }
+          for (let i = 0, fn; (fn = fns[i++]); ) {
+            fn.apply(this, arguments);
+          }
+        },
+      };
+    //   初始化 业务赋能
+    let initEvent = function(obj){
+        for(let i in event){
+            obj[i] = event[i]
+        }
+    }
+    let houseObj = {}
+    initEvent(houseObj)
+    houseObj.listen("small", function (size) {
+        console.log(`小红：我要的房子是${size}平米`);
+      });
+      houseObj.listen("big", function (size) {
+        console.log(`小明：我要的房子是${size}平米`);
+      });
+      houseObj.trigger("small", 100);
+      houseObj.trigger("big", 150);
+```
+#### 高级解耦
+```js
+    let Event = (function () {
+        let list = {},
+          listen,
+          trigger,
+          remove;
+        listen = function (key, fn) {
+          (list[key] || (list[key] = [])).push(fn);
+        };
+        trigger = function () {
+          let key = Array.prototype.shift.call(arguments);
+          let fns = list[key];
+          if (!fns || fns.length == 0) {
+            return;
+          }
+          for (let i = 0, fn; (fn = fns[i++]); ) {
+            fn.apply(this, arguments);
+          }
+        };
+        remove = function (key, fn) {
+          let fns = list[key];
+          if (!fns) {
+            return false;
+          }
+          if (!fn) {
+            fns && (fns.length = 0);
+          } else {
+            for (let i = fns.length - 1; i >= 0; i--) {
+              let _fn = fns[i];
+              _fn === fn && fn.splice(i, 1);
+            }
+          }
+        };
+        return {
+          listen: listen,
+          trigger: trigger,
+          remove: remove,
+        };
+      })();
+      Event.listen("small", function (size) {
+        console.log(`小红：我要的房子是${size}平米`);
+      });
+      Event.trigger("small", 100)
+```
