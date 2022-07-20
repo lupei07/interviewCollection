@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:30:30
- * @LastEditTime: 2022-07-12 10:34:49
+ * @LastEditTime: 2022-07-20 16:20:58
  * @FilePath: \interviewCollection\1.快速布局.html
  * @Description: 
 -->
@@ -28,11 +28,25 @@
         body{
             display: flex;
         }
+        .flex{
+            width: 100%;
+            display: flex;
+        }
+        .flex > div{
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
-    <div class="con">
+    <!-- <div class="con">
         快速居中对齐
+    </div> -->
+
+    <!-- 三栏布局 -->
+    <div class="flex">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
     </div>
 </body>
 </html>

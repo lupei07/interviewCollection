@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-20 10:23:23
+ * @LastEditTime: 2022-07-20 17:32:56
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -722,3 +722,5 @@ var $ = (jQuery = (function (window) {
 - 内存占用（内存占用过大，浏览器崩掉等）
 - 电量消耗（游戏方面，可以暂不考虑）
 ![性能优化](性能优化.png)
+
+## 虚拟
