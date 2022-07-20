@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-18 13:33:25
+ * @LastEditTime: 2022-07-19 17:31:06
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -589,4 +589,124 @@ export const permission = {
       Event.trigger("small", 100)
 ```
 
-## 走进架构师
+## 结构优化与链式调用实现
+```js
+var $ = (jQuery = (function (window) {
+  let jquery = function (nodeSelector) {
+    this.nodes = document.querySelectorAll(nodeSelector);
+  };
+  //   原型方法
+  jquery.prototype = {
+    each: function (callback) {
+      for (let i = 0; i < this.nodes.length; i++) {
+        callback.call(this, i, this.nodes[i]);
+      }
+    },
+    addClass: function (classes) {
+      let className = classes.split(" ");
+      className.forEach((value) => {
+        this.each(function (index, obj) {
+          obj.classList.add(value);
+        });
+      });
+    },
+    setText: function (text) {
+      this.each(function (index, obj) {
+        obj.textContent = text;
+      });
+    },
+  };
+  return function (nodeSelector) {
+    return new jquery(nodeSelector);
+  };
+})());
+```
+
+```js
+var $ = (jQuery = (function (window) {
+  // dom 存储
+  function Query(dom, selector) {
+    let i,
+      len = dom ? dom.length : 0;
+    for (i; i < len; i++) {
+      this[i] = dom[i];
+    }
+    this.length = len;
+    this.selector = selector || "";
+    console.log("thisQuery", this);
+    return this;
+  }
+
+  // 生成jQuery对象
+  function Z(elements, selector) {
+    return Query.call(this, elements, selector);
+  }
+
+  // 具体的dom查找
+  function qsa(element, selector) {
+    return element.querySelectorAll(selector);
+  }
+
+  Z.prototype = {
+    each(callback) {
+      [].every.call(this, function (el, index) {
+        return callback.call(el, index, el) !== false;
+      });
+    },
+    find(selector) {
+      let doms = [];
+      this.each(function (index, el) {
+        let childs = this.querySelectorAll(selector);
+        doms.push(...childs);
+      });
+      return new Z(doms, selector);
+    },
+    eq(i) {
+      let doms = [];
+      this.each(function (index, el) {
+        if (i == index) {
+          doms.push(this);
+        }
+      });
+      console.log("this", this);
+      return new Z(doms, this.selector);
+    },
+    remove() {
+      this.each(function (index, el) {
+        this.remove();
+      });
+    },
+  };
+
+  //   全局方法
+  function isFunction(value) {
+    return typeof value == "function";
+  }
+
+  function $(nodeSelector) {
+    let doms = qsa(document, nodeSelector);
+    return new Z(doms, nodeSelector);
+  }
+
+  //   挂载
+  $.isFunction = isFunction;
+  return $;
+})());
+```
+
+## 性能优化
+#### 1. 在浏览器中输入URL并回车后都发生了什么？
+- url（https://www.baidu.com）：统一资源定位符，俗称网址
+- url是IP的一个映射
+  - https: 传输协议（http和TCP之间加了一层 TSL或者SSL的安全层）
+  - www：万维网，服务器
+  - baidu.com：域名
+
+- 第一次访问：解析url，DNS域名系统匹配真实IP
+  - www.baidu.com => DNS域名系统 => 拿到真实IP => 建立连接（TCP三次握手） => 拿数据，渲染页面 => 四次挥手
+- 第二次访问：将域名解析的IP存在本地 => 读取浏览器缓存 => 查看IP有没有过期等等
+![输入url浏览器的变化](输入url浏览器的变化.png)
+![浏览器渲染页面的过程](浏览器渲染页面的过程.png)
+
+
+#### 2. 从哪些点做性能优化？

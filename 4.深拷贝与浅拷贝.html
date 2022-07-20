@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 13:49:55
- * @LastEditTime: 2022-07-12 16:39:42
+ * @LastEditTime: 2022-07-19 16:24:45
  * @FilePath: \interviewCollection\4.深拷贝与浅拷贝.html
  * @Description: 
 -->
@@ -14,7 +14,7 @@
     <title>深拷贝与浅拷贝</title>
 </head>
 <body>
-    <h2>深拷贝与浅拷贝</h2>
+    <h2>深拷贝与浅拷贝(针对引用数据类型)</h2>
     <script>
         // 1. 基本数据类型 => 严格意义上不能算拷贝，叫赋值
         let a = 5;
@@ -33,12 +33,12 @@
         let arr1 = [1, 2, 3];
         let newArr1 = [...arr];
         newArr1.push(4);
-        console.log(arr1, newArr1); // arr 不变
+        console.log(arr1, newArr1); // arr1 不变
 
         let arr2 = [[1,2,3],[4,5,6]];
         let newArr2 = [...arr2];
         newArr2[0].push(888);
-        console.log(arr2, newArr2); // arr 发生变化
+        console.log(arr2, newArr2); // arr2 发生变化
 
 
         // 深拷贝的用法
