@@ -1,0 +1,57 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-20 10:37:26
+ * @LastEditTime: 2022-07-20 11:06:50
+ * @FilePath: \interviewCollection\16.图片懒加载.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片懒加载</title>
+    <style>
+        img{
+            height: 300px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img src="./imgs/loading.gif" data-src="./imgs/1.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/2.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/3.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/4.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/5.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/6.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/7.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/8.jpeg" />
+    <img src="./imgs/loading.gif" data-src="./imgs/9.jpeg" />
+</body>
+<script>
+    let num = document.getElementsByTagName("img").length;
+    let img = document.getElementsByTagName("img");
+    let n = 0;
+    lazyload();
+    window.onscroll=lazyload;
+    function lazyload(){
+        let seeHeight = document.documentElement.clientHeight;
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        console.log('seeHeight',seeHeight);
+        console.log('scrollTop',scrollTop);
+        for(let i=n; i< num; i++){
+            console.log('img[i].offsetTop',img[i].offsetTop);
+            if(img[i].offsetTop < seeHeight + scrollTop){
+                if(img[i].getAttribute("src") == './imgs/loading.gif'){
+                    img[i].src = img[i].getAttribute("data-src")
+                }
+                n = i + 1;
+            }
+            
+        }
+    }
+</script>
+</html>
