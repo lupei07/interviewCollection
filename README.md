@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-21 10:31:11
+ * @LastEditTime: 2022-07-21 11:09:34
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -375,7 +375,36 @@ function updateChildren(vnode, newVnode) {
   });
 }
 ```
+
+
+## Vue应用层
+### 1. $nextTick()
+  - dom更新之后延迟回调
+### 2. 单页面与多页面的区别及优缺点
+  - 单页面应用（SPA）：只有一个主页面的应用
+    - 组件 => 页面片段
+    - 跳转 => 刷新局部资源
+    - 场景 => PC端
+    - 优点：
+      - 体验好，快
+      - 改动页面内容，不用加载整个页面
+      - 前后端分离
+      - 效果可以很炫酷，如切换效果
+    - 缺点：
+      - 不利于SEO
+      - 初次加载比较慢
+      - 页面复杂度高
+  - 多页面应用：
+    - 整页刷新
+### 3. v-if与v-for
+  - v-for优先级 > v-if
+  - 不能同时使用
+### 4. Vue-router与location.href有什么区别？
+  - location.href：简单方便，刷新页面（跳外链）
+  - Vue-router：实现了按需加载，减少了dom消耗（内部页面）
+  - Vue-router => js原生history
 ## 打包
+`npm install uglifyjs-webpack-plugin --save-dev`
 ```js
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 let isProduction = process.env.NODE_ENV;

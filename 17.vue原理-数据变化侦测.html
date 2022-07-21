@@ -1,0 +1,26 @@
+<!--
+ * @Author: lu
+ * @Date: 2022-07-21 16:02:42
+ * @LastEditTime: 2022-07-21 16:37:54
+ * @FilePath: \interviewCollection\17.vue原理-数据变化侦测.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue原理-数据变化侦测</title>
+</head>
+<body>
+    <script type="module">
+        import {Observe} from './observer.js'
+        let obj = new Observe({
+            name: "Lily",
+            age: 20
+        })
+        console.log(obj.value.name);
+    </script>
+</body>
+</html>
