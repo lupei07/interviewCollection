@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-21 11:09:34
+ * @LastEditTime: 2022-07-21 17:15:00
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -314,6 +314,53 @@ body{
 1. 闭包设计：每一个组件都有自己的私有作用域，确保各组件数据不会相互干扰
 2. 如果是纯对象设计：会有干扰
 
+## Vue原理--数据变化监测
+```js
+export class Observer {
+  constructor(value) {
+    this.value = value;
+    if (Array.isArray(value)) {
+      // 数组逻辑
+    } else {
+      // 对象逻辑
+      this.walk(value);
+    }
+  }
+
+  walk(obj) {
+    // { name: "lily", age: 12 }
+    let keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      defineReactive(obj, keys[i]);
+    }
+  }
+}
+
+function defineReactive(obj, key, val) {
+  if (arguments.length === 2) {
+    val = obj[key]; // 对象的某个值
+  }
+
+  if (typeof val === "object") {
+    // 递归
+    new Observer(val);
+  }
+
+  Object.defineProperty(obj, key, {
+    enumerable: true, // 可枚举
+    configurable: true, // 可改变
+    get() {
+      console.log(`${key}属性被读取了`);
+      return val;
+    },
+    set(newVal) {
+      console.log(`${key}属性被修改了，新值为${newVal}`);
+      val = newVal;
+    },
+  });
+}
+
+```
 ## 虚拟dom详解
 ### 1. 虚拟dom是什么？
 - vue2.x 才有的虚拟dom
@@ -799,5 +846,6 @@ var $ = (jQuery = (function (window) {
 - 内存占用（内存占用过大，浏览器崩掉等）
 - 电量消耗（游戏方面，可以暂不考虑）
 ![性能优化](性能优化.png)
+
 
 

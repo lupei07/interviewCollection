@@ -1,11 +1,13 @@
 /*
  * @Author: lu
  * @Date: 2022-07-18 14:33:44
- * @LastEditTime: 2022-07-18 17:45:07
+ * @LastEditTime: 2022-07-21 16:54:32
  * @FilePath: \interviewCollection\dom.js
  * @Description:
  */
-
+// 匿名自执行函数
+// 单例模式
+// 1. 立即执行 2. 避免变量污染
 var $ = (jQuery = (function (window) {
   let jquery = function (nodeSelector) {
     this.nodes = document.querySelectorAll(nodeSelector);
