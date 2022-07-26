@@ -1,7 +1,7 @@
 <!--
  * @Author: lu
  * @Date: 2022-07-12 10:28:08
- * @LastEditTime: 2022-07-22 17:12:10
+ * @LastEditTime: 2022-07-25 11:26:02
  * @FilePath: \interviewCollection\README.md
  * @Description: 
 -->
@@ -1010,8 +1010,80 @@ console.log(R.fn("a")); //1
   ```
  - 2. nginx反向代理
  - 3. webpack plugin
+  ```js
+    let webpack = require("webpack")
+    let middle = require("webpack-dev-middleware");
+    let compiler = webpack(require("./webpack.config.js"));
+    app.use(middle(compiler))
+  ```
  - 4. jsonp（不推荐）
  - 5. cors（后端） 
 
-
-
+## call,apply,bind
+### 改变指针
+1. 箭头函数
+```js
+var name = "windowName";
+var a = {
+  name: "cherry",
+  func1: function () {
+    console.log(this.name);
+  },
+  func2: function () {
+    var _this = this;
+    setTimeout(() => {
+      this.func1();
+      _this.func1();
+    }, 100);
+  },
+};
+a.func2();
+```
+2. 变量
+3. call--执行一个函数  函数名.call(作用域对象)  
+```js
+var name = "windowName";
+var a = {
+  name: "cherry",
+  func1: function () {
+    console.log(this.name);
+  },
+  func2: function () {
+    setTimeout(
+      function () {
+        console.log(this);
+        this.func1();
+      }.call(a),
+      100
+    );
+  },
+};
+a.func2();
+```
+4. apply--执行一个函数  函数名.call(作用域对象)  
+```js
+// call apply的区别
+var a = {
+  name: "cherry",
+  fn: function (a, b) {
+    console.log(a + b);
+  },
+};
+var b = a.fn;
+b.apply(a, [1, 2]); // 对象，参数--数组
+b.call(a, 1, 4); // 对象，参数--多个
+var c = b.bind(a, 2, 5); // 绑定作用域
+c(); // 7
+b.mycall(a, 4, 6);
+```
+### call的实现原理
+```js
+// Call的实现原理  ctx--作用域对象
+Function.prototype.mycall = function (ctx) {
+  ctx = ctx || window;
+  ctx.fn = this; // 添加属性 this => b
+  let arg = [...arguments].splice(1); // 取参数
+  let result = ctx.fn(...arg); // 执行b函数
+  return result;
+};
+```
