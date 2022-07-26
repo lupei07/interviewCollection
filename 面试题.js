@@ -1,10 +1,17 @@
 /*
  * @Author: lu
  * @Date: 2022-07-22 10:18:42
- * @LastEditTime: 2022-07-22 16:32:52
+ * @LastEditTime: 2022-07-26 15:50:59
  * @FilePath: \interviewCollection\面试题.js
  * @Description:
  */
+
+var m = new Map();
+m.set("name", "amy");
+for (let [key, value] of m) {
+  console.log(key, value);
+}
+
 var a = 10;
 function test() {
   a = 100;
